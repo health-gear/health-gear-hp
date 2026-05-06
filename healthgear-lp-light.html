@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>株式会社ヘルスギア | シビックテック・GovTech カンパニー</title>
+  <meta name="description" content="テクノロジーとデータの力で、政治・行政・医療という「社会インフラ」のアップデート（DX）を推進する次世代のシビックテック・カンパニー、株式会社ヘルスギア。">
+  <meta name="keywords" content="シビックテック, GovTech, 行政DX, 地域医療DX, 選挙DX, 令和ボイス, 議事録AI, 株式会社ヘルスギア">
+  <meta property="og:title" content="株式会社ヘルスギア | シビックテック・GovTech">
+  <meta property="og:description" content="社会のバグを修正し、健全な民主主義と地域医療を実装する。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'hg-blue':  '#2563EB',
+            'hg-mint':  '#10B981',
+            'hg-gray':  '#1F2937',
+          },
+          fontFamily: {
+            sans: ['Noto Sans JP', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: #ffffff;
+      color: #1F2937;
+      font-family: 'Noto Sans JP', 'Inter', sans-serif;
+    }
+
+    /* ---- Gradient text (works on white) ---- */
+    .gradient-text {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563EB 50%, #0284c7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ---- Hero dot grid — barely visible on white ---- */
+    .hero-grid {
+      background-image:
+        linear-gradient(rgba(37, 99, 235, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ---- Cards — Stripe-like soft shadow ---- */
+    .card-clean {
+      border: 1px solid #E5E7EB;
+      background: #ffffff;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-clean:hover {
+      border-color: #BFDBFE;
+      box-shadow: 0 4px 6px -1px rgba(37,99,235,0.06),
+                  0 20px 40px -8px rgba(37,99,235,0.10),
+                  0 0 0 1px rgba(37,99,235,0.06);
+      transform: translateY(-4px);
+    }
+
+    /* ---- Primary button ---- */
+    .btn-primary {
+      background: linear-gradient(135deg, #1d4ed8, #2563EB);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1e40af, #1d4ed8);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
+      transform: translateY(-2px);
+    }
+
+    /* ---- Fade-in on scroll ---- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- Nav links ---- */
+    .nav-link {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: #2563EB;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ---- Terminal ---- */
+    .terminal-text { font-family: 'Courier New', Courier, monospace; }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    .cursor { animation: blink 1.1s infinite; }
+
+    /* ---- Logo animated gradient (unchanged) ---- */
+    @keyframes gradient-shift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animated-gradient {
+      background: linear-gradient(270deg, #1e3a8a, #1e40af, #0284c7, #0369a1, #1d4ed8);
+      background-size: 400% 400%;
+      animation: gradient-shift 8s ease infinite;
+    }
+
+    /* ---- Ambient hero glow (very soft on light) ---- */
+    .hero-glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+    }
+
+    /* ---- Nav blur ---- */
+    nav {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+
+    /* ---- Region badge (light) ---- */
+    .region-badge {
+      background: #F9FAFB;
+      border: 1px solid #E5E7EB;
+    }
+
+    /* ---- Section divider (light) ---- */
+    .section-divider {
+      background: linear-gradient(90deg, transparent, rgba(37,99,235,0.18), transparent);
+    }
+
+    /* ---- Municipality logo tiles ---- */
+    .municipality-logo {
+      transition: all 0.3s ease;
+    }
+    .municipality-logo:hover {
+      filter: brightness(0.96);
+      transform: scale(1.04);
+    }
+
+    /* ---- Online badge pulse ---- */
+    @keyframes pulse-ring {
+      0%   { transform: scale(0.8); opacity: 0.8; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+    .pulse-ring::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #10B981;
+      animation: pulse-ring 2s ease-out infinite;
+    }
+
+    /* ---- Scroll indicator ---- */
+    @keyframes scroll-bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(6px); }
+    }
+    .scroll-bounce { animation: scroll-bounce 1.8s ease-in-out infinite; }
+
+    /* ---- Product card header gradients (light) ---- */
+    .product-header-rv {
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 60%, #E0F2FE 100%);
+    }
+    .product-header-ai {
+      background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 60%, #D1FAE5 100%);
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-800 overflow-x-hidden">
+
+  <!-- ===== Navigation ===== -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/85 border-b border-gray-200/70 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl overflow-hidden shadow-md">
+          <img src="logo/ヘルスギア.jpg" alt="株式会社ヘルスギア ロゴ" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <span class="text-gray-900 font-bold text-base tracking-tight leading-none">Health Gear</span>
+          <span class="text-gray-400 text-xs block mt-0.5">株式会社ヘルスギア</span>
+        </div>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#business"      class="nav-link text-gray-500 hover:text-gray-900 text-sm font-medium">事業内容</a>
+        <a href="#products"      class="nav-link text-gray-500 hover:text-gray-900 text-sm font-medium">プロダクト</a>
+        <a href="#track-record"  class="nav-link text-gray-500 hover:text-gray-900 text-sm font-medium">実績</a>
+        <a href="#team"          class="nav-link text-gray-500 hover:text-gray-900 text-sm font-medium">チーム</a>
+        <a href="#contact" class="btn-primary text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-md">お問い合わせ</a>
+      </div>
+      <button class="md:hidden text-gray-500 hover:text-gray-900" aria-label="メニュー">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== Hero Section ===== -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center hero-grid overflow-hidden pt-20 bg-white" aria-label="ヒーローセクション">
+    <!-- Soft ambient glows on white -->
+    <div class="hero-glow w-[520px] h-[520px] bg-blue-200/40 top-0 -left-64"></div>
+    <div class="hero-glow w-[400px] h-[400px] bg-sky-200/30 bottom-0 -right-40"></div>
+    <div class="hero-glow w-[280px] h-[280px] bg-blue-100/50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2.5 bg-blue-50 border border-blue-200 rounded-full px-5 py-2 mb-10">
+        <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+        <span class="text-blue-700 text-sm font-semibold tracking-wide">シビックテック × GovTech × 地域医療DX</span>
+      </div>
+
+      <!-- Main headline -->
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-[1.15] mb-8 tracking-tight" itemscope itemtype="https://schema.org/Organization">
+        <span class="block text-gray-900">地方と医療に</span>
+        <span class="block"><span class="gradient-text">code</span><span class="text-gray-900">を流す</span></span>
+      </h1>
+
+      <!-- Terminal tagline — Light theme editor style -->
+      <div class="terminal-text bg-[#F3F4F6] border border-gray-200 rounded-2xl px-6 py-4 inline-block mb-10 text-left shadow-sm">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-3 h-3 rounded-full bg-red-400"></div>
+          <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+          <div class="w-3 h-3 rounded-full bg-green-400"></div>
+          <span class="text-gray-400 text-xs ml-2">health-gear ~ main</span>
+        </div>
+        <p class="text-sm md:text-base">
+          <span class="text-gray-400">$</span>
+          <span class="text-blue-600 font-semibold"> git commit</span>
+          <span class="text-orange-500"> -m </span>
+          <span class="text-[#4B5563]">"Breathing new life"</span>
+          <span class="cursor text-blue-500 ml-0.5">▋</span>
+        </p>
+      </div>
+
+      <!-- Sub description -->
+      <p class="text-gray-500 text-lg md:text-xl max-w-3xl mx-auto mb-14 leading-relaxed">
+        テクノロジーとデータの力で、政治・行政・医療という<strong class="text-gray-800 font-semibold">「社会インフラ」のアップデート（DX）</strong>を推進する<br class="hidden md:block">次世代のシビックテック・カンパニー。
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="#business" class="btn-primary text-white px-9 py-4 rounded-full font-bold text-base inline-flex items-center gap-2.5 shadow-lg">
+          事業内容を見る
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </a>
+        <a href="#products" class="text-gray-700 border border-gray-300 hover:border-blue-400 bg-white hover:bg-blue-50 px-9 py-4 rounded-full font-bold text-base inline-flex items-center gap-2.5 transition-all hover:text-blue-700">
+          プロダクトを見る
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+
+  </section>
+
+  <div class="h-px section-divider"></div>
+
+  <!-- ===== Core Business Section ===== -->
+  <section id="business" class="py-32 px-6 bg-[#F9FAFB]" aria-label="事業内容">
+    <div class="max-w-7xl mx-auto">
+      <header class="text-center mb-20 fade-in">
+        <span class="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">Core Business</span>
+        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mt-3 mb-5">事業の3本柱</h2>
+        <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">行政・政治・医療の3領域において、テクノロジーを武器に社会課題を解決します。</p>
+      </header>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Card 1: GovTech -->
+        <article class="card-clean rounded-3xl p-8 fade-in" itemscope itemtype="https://schema.org/Service">
+          <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 border border-blue-100">
+            <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+          </div>
+          <div class="text-blue-400 text-xs font-mono tracking-widest mb-2">01 / GovTech</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug" itemprop="name">GovTech＆シビックテック<br>開発事業</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-6" itemprop="description">
+            生成AIや最新Webフレームワークを活用し、行政の非効率を解消するシステムや市民の政治参加を促すアプリの企画・開発・実装。住民サービスを根本からアップデートします。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1 rounded-full font-medium">生成AI</span>
+            <span class="text-xs bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1 rounded-full font-medium">行政DX</span>
+            <span class="text-xs bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1 rounded-full font-medium">市民参加</span>
+          </div>
+        </article>
+
+        <!-- Card 2: PublicAffairs -->
+        <article class="card-clean rounded-3xl p-8 fade-in" style="transition-delay:0.15s" itemscope itemtype="https://schema.org/Service">
+          <div class="w-14 h-14 bg-sky-50 rounded-2xl flex items-center justify-center mb-6 border border-sky-100">
+            <svg class="w-7 h-7 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div class="text-sky-500 text-xs font-mono tracking-widest mb-2">02 / PublicAffairs</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug" itemprop="name">データ駆動型<br>パブリックアフェアーズ事業</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-6" itemprop="description">
+            アナログな選挙戦を脱却し、データ解析や有権者インサイト分析を駆使した次世代の選挙・政治活動支援。政策立案からデジタルキャンペーンまで、政治家のDXをトータルサポート。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1 rounded-full font-medium">選挙DX</span>
+            <span class="text-xs bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1 rounded-full font-medium">データ解析</span>
+            <span class="text-xs bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1 rounded-full font-medium">政策立案</span>
+          </div>
+        </article>
+
+        <!-- Card 3: Healthcare DX — mint green accent -->
+        <article class="card-clean rounded-3xl p-8 fade-in border-emerald-200 hover:border-emerald-300" style="transition-delay:0.3s; border-color:#A7F3D0;" itemscope itemtype="https://schema.org/Service">
+          <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center mb-6 border border-emerald-200">
+            <svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+            </svg>
+          </div>
+          <div class="text-emerald-500 text-xs font-mono tracking-widest mb-2">03 / Healthcare</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4 leading-snug" itemprop="name">地域医療DX<br>（ヘルスケア・イノベーション）事業</h3>
+          <p class="text-gray-500 text-sm leading-relaxed mb-6" itemprop="description">
+            地域医療の拠点となる薬局等のDX支援。業務フロー最適化で医療従事者が「対人業務」に集中できる健全なシステムを構築。地域に根ざした医療インフラをアップデートします。
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-medium">薬局DX</span>
+            <span class="text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-medium">業務改善</span>
+            <span class="text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-medium">医療IT</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px section-divider"></div>
+
+  <!-- ===== Products & Projects Section ===== -->
+  <section id="products" class="py-32 px-6 bg-white" aria-label="プロダクト・実績">
+    <div class="max-w-7xl mx-auto">
+      <header class="text-center mb-20 fade-in">
+        <span class="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">Products & Projects</span>
+        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mt-3 mb-5">自社関連プロダクト</h2>
+
+      </header>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <!-- Product 1: Reiwa Voice -->
+        <article class="card-clean rounded-3xl overflow-hidden fade-in" itemscope itemtype="https://schema.org/SoftwareApplication">
+          <!-- Light blue gradient header -->
+          <div class="product-header-rv p-8 relative overflow-hidden min-h-[140px] border-b border-blue-100">
+            <div class="absolute inset-0 hero-grid opacity-40"></div>
+            <div class="relative z-10 flex items-start justify-between">
+              <div>
+                <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-blue-200 rounded-lg px-3 py-1.5 mb-4 shadow-sm">
+                  <span class="text-blue-700 font-bold text-sm">令和ボイス</span>
+                </div>
+                <div class="text-blue-200 font-black text-7xl leading-none tracking-tighter select-none">RV</div>
+              </div>
+              <div class="flex flex-col gap-2 items-end">
+                <!-- Design award badge — blue tint -->
+                <div class="bg-blue-50 border border-blue-300 rounded-full px-3 py-1.5 shadow-sm">
+                  <span class="text-blue-800 text-xs font-semibold">🏆 世界三大デザイン賞エントリー予定</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-1" itemprop="name">令和ボイス</h3>
+            <p class="text-blue-600 text-sm font-semibold mb-5">匿名陳情AIシステム</p>
+            <p class="text-gray-500 leading-relaxed mb-7" itemprop="description">
+              市民が匿名で行政への陳情・要望を送ることができるAI搭載システム。<strong class="text-gray-800 font-semibold">世界三大デザイン賞</strong>へのエントリーも予定する、日本発のシビックテック・フラッグシッププロダクト。
+            </p>
+            <div class="flex flex-wrap gap-3">
+              <div class="flex items-center gap-2.5 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3">
+                <span class="text-2xl">🌐</span>
+                <div>
+                  <div class="text-gray-800 text-xs font-bold">世界三大デザイン賞</div>
+                  <div class="text-gray-400 text-xs">エントリー予定</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 2: Matsubara City AI -->
+        <article class="card-clean rounded-3xl overflow-hidden fade-in" style="transition-delay:0.15s" itemscope itemtype="https://schema.org/SoftwareApplication">
+          <!-- Light mint gradient header -->
+          <div class="product-header-ai p-8 relative overflow-hidden min-h-[140px] border-b border-emerald-100">
+            <div class="absolute inset-0 hero-grid opacity-30"></div>
+            <div class="relative z-10 flex items-start justify-between">
+              <div>
+                <div class="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-emerald-200 rounded-lg px-3 py-1.5 mb-4 shadow-sm">
+                  <span class="text-emerald-700 font-bold text-sm">議事録AI</span>
+                </div>
+                <div class="terminal-text text-emerald-200 text-5xl font-black leading-none tracking-tighter select-none">AI_SEARCH</div>
+              </div>
+              <div>
+                <!-- Running badge — emerald -->
+                <div class="bg-emerald-50 border border-emerald-300 rounded-full px-3 py-1.5 shadow-sm">
+                  <span class="text-emerald-800 text-xs font-bold">✅ 稼働中</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-1" itemprop="name">松原市議会 議事録AI検索システム</h3>
+            <p class="text-blue-600 text-sm font-semibold mb-5">シビックテック・プロダクト｜大阪府松原市</p>
+            <p class="text-gray-500 leading-relaxed mb-7" itemprop="description">
+              過去<strong class="text-gray-800 font-semibold">8年分</strong>の議会議事録データを生成AI（FastAPI等）で解析・全文検索可能にした先進的シビックテック・プロダクト。議会の透明性を高め、市民が政治をより身近に感じるためのデジタルインフラを提供。
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-medium">FastAPI</span>
+              <span class="text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-medium">生成AI</span>
+              <span class="text-xs bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1 rounded-full font-medium">議会DX</span>
+              <span class="text-xs bg-blue-50 border border-blue-200 text-blue-700 px-3 py-1 rounded-full font-medium">全文検索</span>
+              <span class="text-xs bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">大阪府松原市</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px section-divider"></div>
+
+  <!-- ===== Track Record Section ===== -->
+  <section id="track-record" class="py-32 px-6 bg-[#F9FAFB]" aria-label="支援・取引実績">
+    <div class="max-w-7xl mx-auto">
+      <header class="text-center mb-16 fade-in">
+        <span class="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">Track Record</span>
+        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mt-3 mb-5">支援・取引実績</h2>
+        <p class="text-gray-500 text-lg max-w-3xl mx-auto leading-relaxed">
+          北海道から沖縄まで。圧倒的な全国規模の実績。<br class="hidden md:block">現職衆議院議員・参議院議員を含む多数のエリアで支援実績があります。
+        </p>
+      </header>
+
+      <!-- 取引実績 -->
+      <div class="mb-20 fade-in">
+        <div class="flex items-center gap-4 mb-8">
+          <div class="h-px flex-1 bg-gray-200"></div>
+          <div class="flex items-center gap-2.5 bg-white border border-blue-200 rounded-full px-5 py-2 shadow-sm">
+            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+            <span class="text-blue-700 text-sm font-bold tracking-wide">取引実績</span>
+            <span class="text-gray-400 text-xs font-medium">11自治体</span>
+          </div>
+          <div class="h-px flex-1 bg-gray-200"></div>
+        </div>
+        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/日野市.png" alt="東京都 日野市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">日野市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/葛飾区.png" alt="東京都 葛飾区（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">葛飾区</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/小金井市.png" alt="東京都 小金井市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">小金井市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/八潮市.png" alt="埼玉県 八潮市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">八潮市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-amber-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/立川市.png" alt="東京都 立川市（取引実績・2026年6月稼働予定）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">立川市<span class="text-amber-500 text-[10px] ml-0.5">※予定</span></figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/箕面市.png" alt="大阪府 箕面市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">箕面市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/茨木市.png" alt="大阪府 茨木市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">茨木市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/尼崎市.png" alt="兵庫県 尼崎市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">尼崎市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/養父市.png" alt="兵庫県 養父市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">養父市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/奈良市.png" alt="奈良県 奈良市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">奈良市</figcaption></figure>
+          <figure><div class="aspect-square bg-white border border-gray-200 rounded-xl overflow-hidden municipality-logo shadow-sm flex items-center justify-center p-3"><img src="logo/%E3%81%84%E3%81%AA%E3%81%B9%E5%B8%82.png" alt="三重県 いなべ市（取引実績）" class="w-full h-full object-contain"></div><figcaption class="text-gray-400 text-xs text-center mt-1.5">いなべ市</figcaption></figure>
+        </div>
+      </div>
+
+      <!-- 支援実績 -->
+      <div class="mb-14 fade-in" style="transition-delay:0.15s">
+        <div class="flex items-center gap-4 mb-6">
+          <div class="h-px flex-1 bg-gray-200"></div>
+          <div class="flex items-center gap-2.5 bg-white border border-emerald-200 rounded-full px-5 py-2 shadow-sm">
+            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+            <span class="text-emerald-700 text-sm font-bold tracking-wide">支援実績エリア</span>
+            <span class="text-gray-400 text-xs font-medium">25自治体＋</span>
+          </div>
+          <div class="h-px flex-1 bg-gray-200"></div>
+        </div>
+        <p class="text-gray-400 text-xs text-center mb-5">プロボノ提供含む</p>
+        <p class="text-gray-600 text-sm text-center leading-relaxed">
+          札幌市・宮城県・仙台市・名取市・岩沼市・鎌倉市・厚木市・座間市・日野市・豊島区・渋谷区・葛飾区・小金井市・八潮市・牛久市・立川市・箕面市・茨木市・尼崎市・養父市・奈良市・いなべ市・四日市市・松山市・那覇市
+        </p>
+        <div class="mt-5 flex flex-wrap gap-2 justify-center">
+          <span class="text-gray-400 text-xs">🏛 衆議院議員（選挙区、ブロック比例）</span>
+          <span class="text-gray-300 text-xs">／</span>
+          <span class="text-gray-400 text-xs">🏛 参議院議員（選挙区、全国比例）</span>
+          <span class="text-gray-300 text-xs">／</span>
+          <span class="text-gray-400 text-xs">🗳 首長選挙</span>
+        </div>
+      </div>
+
+      <!-- Coverage summary -->
+      <div class="text-center fade-in">
+        <!-- 上段: 3つの数値 -->
+        <div class="inline-flex items-center gap-0 bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm mb-3">
+          <div class="py-6 px-8 text-center">
+            <div class="text-3xl font-black gradient-text">11</div>
+            <div class="text-gray-400 text-xs mt-1 font-medium">取引実績</div>
+          </div>
+          <div class="w-px h-12 bg-gray-200"></div>
+          <div class="py-6 px-8 text-center">
+            <div class="text-3xl font-black gradient-text">25+</div>
+            <div class="text-gray-400 text-xs mt-1 font-medium">支援実績</div>
+          </div>
+          <div class="w-px h-12 bg-gray-200"></div>
+          <div class="py-6 px-8 text-center">
+            <div class="text-3xl font-black gradient-text">10+</div>
+            <div class="text-gray-400 text-xs mt-1 font-medium">都道府県</div>
+          </div>
+        </div>
+        <!-- 下段: 国会議員 -->
+        <div class="block">
+          <div class="inline-flex items-center gap-3 bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm px-8 py-5">
+            <div class="text-3xl font-black gradient-text">国会</div>
+            <div class="text-gray-400 text-sm font-medium">議員支援実績多数</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px section-divider"></div>
+
+  <!-- ===== Board Members Section ===== -->
+  <section id="team" class="py-32 px-6 bg-white" aria-label="役員紹介">
+    <div class="max-w-5xl mx-auto">
+      <header class="text-center mb-20 fade-in">
+        <span class="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">Board Members</span>
+        <h2 class="text-4xl md:text-5xl font-black text-gray-900 mt-3 mb-5">役員紹介</h2>
+        <p class="text-gray-500 text-lg">政治の現場とテクノロジーの最前線、双方を知る異色のチームが社会を動かす。</p>
+      </header>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <!-- CEO -->
+        <article class="card-clean rounded-3xl p-8 fade-in" itemscope itemtype="https://schema.org/Person">
+          <div class="flex items-start gap-5 mb-7">
+            <div class="relative flex-shrink-0">
+              <!-- Avatar placeholder — light gray -->
+              <div class="w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden shadow-sm">
+                <img src="logo/佐藤さやか.png"
+                     alt="株式会社ヘルスギア 代表取締役CEO 佐藤さやか（宮城県名取市議会議員）"
+                     class="w-full h-full object-cover" itemprop="image">
+              </div>
+              <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-2 border-white relative flex items-center justify-center pulse-ring shadow-sm">
+                <div class="w-2 h-2 bg-white rounded-full relative z-10"></div>
+              </div>
+            </div>
+            <div>
+              <div class="text-blue-400 text-xs font-mono tracking-widest mb-1">Representative Director / CEO</div>
+              <h3 class="text-2xl font-black text-gray-900 leading-tight" itemprop="name">佐藤 さやか</h3>
+              <p class="text-gray-500 text-sm mt-1 font-medium" itemprop="jobTitle">代表取締役（CEO）</p>
+              <p class="text-gray-400 text-xs mt-1">宮城県名取市議会議員 ／ 薬剤師 ／ 経営学修士（MBA） ／ 予備自衛官補 ／ プログラマー</p>
+            </div>
+          </div>
+
+          <div class="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mb-6">
+            <p class="text-blue-700 text-xs font-bold">🏛 現職：宮城県 名取市議会議員</p>
+          </div>
+
+          <p class="text-gray-500 text-sm leading-relaxed mb-6" itemprop="description">
+            薬剤師として東証一部上場企業に入社。人事部にて社内トップの成績を収めた後、商品開発チームにて基礎化粧品をゼロから開発し、商品化を成功させる。さらに大学病院門前薬局で経験を積み、店舗開発および薬局長兼、管理薬剤師を歴任。<br><br>
+            現場の医療、商品開発、組織マネジメントの全工程を経験する中で「医療インフラのアップデート」の必要性を痛感し、岩手県での3ヶ月間に及ぶプログラミング合宿（八幡平市スパルタキャンプ）に参戦。技術を習得後、グロービス経営大学院でMBAを取得。<br><br>
+            現在は宮城県名取市議会議員としてパブリックアフェアーズを牽引しつつ、予備自衛官補として国防の現場にも携わる。医療・プロダクト開発・経営戦略・政治の4領域を横断し、社会のバグを修正する「フルスタック・ストラテジスト」。
+          </p>
+
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">パブリックアフェアーズ</span>
+            <span class="text-xs bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">議員ネットワーク</span>
+            <span class="text-xs bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">政策立案</span>
+            <span class="text-xs bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">選挙DX</span>
+          </div>
+        </article>
+
+        <!-- CTO — mint green accent for tech -->
+        <article class="card-clean rounded-3xl p-8 fade-in" style="transition-delay:0.15s" itemscope itemtype="https://schema.org/Person">
+          <div class="flex items-start gap-5 mb-7">
+            <div class="relative flex-shrink-0">
+              <!-- Avatar placeholder — light gray -->
+              <div class="w-20 h-20 rounded-2xl bg-gray-100 flex items-center justify-center border border-gray-200 overflow-hidden shadow-sm">
+                <img src="logo/丸吉孝文.png"
+                     alt="株式会社ヘルスギア 取締役CTO 丸吉孝文（AIシビックテックエンジニア・令和ボイス議事録AIリードアーキテクト）"
+                     class="w-full h-full object-cover" itemprop="image">
+              </div>
+              <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-500 rounded-full border-2 border-white relative flex items-center justify-center pulse-ring shadow-sm">
+                <div class="w-2 h-2 bg-white rounded-full relative z-10"></div>
+              </div>
+            </div>
+            <div>
+              <div class="text-emerald-500 text-xs font-mono tracking-widest mb-1">Director / CTO</div>
+              <h3 class="text-2xl font-black text-gray-900 leading-tight" itemprop="name">丸吉 孝文</h3>
+              <p class="text-gray-500 text-sm mt-1 font-medium" itemprop="jobTitle">取締役 CTO（最高技術責任者）</p>
+            </div>
+          </div>
+
+          <!-- Mint green badge for CTO -->
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3 mb-6">
+            <p class="text-emerald-700 text-xs font-bold">⚙️ AI・シビックテックエンジニア｜令和ボイス・議事録AIリードアーキテクト</p>
+          </div>
+
+          <p class="text-gray-500 text-sm leading-relaxed mb-6" itemprop="description">
+            IT企業でのSE経験を経て、独学で生成AIとプログラミングを修めたAI・シビックテックエンジニア。2016年、熊本地震直後のハッカソン（Startup Weekend ALL for Kumamoto）にて社会課題プロダクトを実装し優勝。これを原点に、「令和ボイス」や「議事録AI検索システム」のリードアーキテクトとして、日本の民主主義のシステムアップデートを牽引する。<br><br>
+            建設コンサルタントとして津波や豪雨の防災業務に従事（防災士）、農業法人役員や狩猟免許の保有など、自然災害や一次産業という「フィジカルな現場のバグ」をも熟知。多数の国会議員との接点を持ち、国政政党のシステム開発も手掛ける。現在は「AI×政治」を掛け合わせ、同時に3名の地方議員の政策立案を支える政策スペシャリストとしても活動。<br><br>
+            社会のあらゆる層に「新しいCode」を流し込む。松原市議会議員選挙2026立候補予定
+          </p>
+
+          <!-- Official website link -->
+          <a href="https://www.maruyoshi-takafumi.com/" target="_blank" rel="noopener noreferrer"
+             class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 mb-6 hover:bg-gray-100 hover:border-gray-300 transition-colors group">
+            <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-gray-700 text-xs font-bold group-hover:text-emerald-700 transition-colors">丸吉孝文 公式ホームページ</p>
+              <p class="text-gray-400 text-xs truncate">maruyoshi-takafumi.com</p>
+            </div>
+            <svg class="w-4 h-4 text-gray-300 group-hover:text-emerald-500 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+
+          <!-- Mint green tech tags for CTO -->
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-medium">生成AI</span>
+            <span class="text-xs bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1 rounded-full font-medium">FastAPI</span>
+            <span class="text-xs bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">リードアーキテクト</span>
+            <span class="text-xs bg-gray-100 border border-gray-200 text-gray-600 px-3 py-1 rounded-full font-medium">シビックテック</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="h-px section-divider"></div>
+
+  <!-- ===== CTA Section ===== -->
+  <section class="py-36 px-6 relative overflow-hidden bg-[#EFF6FF]" aria-label="お問い合わせ">
+    <!-- Very subtle blue tint glows -->
+    <div class="hero-glow w-[600px] h-[400px] bg-blue-300/20 top-1/2 left-0 -translate-y-1/2"></div>
+    <div class="hero-glow w-[400px] h-[300px] bg-sky-200/25 top-1/2 right-0 -translate-y-1/2"></div>
+
+    <div class="max-w-4xl mx-auto text-center relative z-10 fade-in">
+      <span class="text-blue-600 text-xs font-bold tracking-[0.2em] uppercase">Contact</span>
+      <h2 class="text-4xl md:text-6xl font-black text-gray-900 mt-4 mb-6 leading-tight">
+        社会をアップデートする<br>
+        <span class="gradient-text">プロジェクトを始めよう。</span>
+      </h2>
+      <p class="text-gray-500 text-xl mb-14 max-w-2xl mx-auto leading-relaxed">
+        行政DX・政治DX・医療DXの推進パートナーとして。<br>まずはお気軽にご相談ください。
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center" id="contact">
+        <a href="mailto:info@health-gear.net" class="btn-primary text-white px-10 py-4 rounded-full font-bold text-lg inline-flex items-center gap-3 shadow-xl">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          お問い合わせ
+        </a>
+        <a href="https://github.com/health-gear" target="_blank" rel="noopener noreferrer"
+           class="text-gray-700 border border-gray-300 hover:border-blue-400 bg-white hover:bg-white px-10 py-4 rounded-full font-bold text-lg inline-flex items-center gap-3 transition-all hover:text-blue-700 shadow-sm">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.92.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="border-t border-gray-100 py-16 px-6 bg-gray-900" itemscope itemtype="https://schema.org/Organization">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-12 mb-12">
+
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl overflow-hidden shadow-lg">
+              <img src="logo/ヘルスギア.jpg" alt="株式会社ヘルスギア ロゴ" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <span class="text-white font-bold text-base" itemprop="name">Health Gear</span>
+              <span class="text-gray-500 text-xs block mt-0.5">株式会社ヘルスギア</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-5 max-w-sm" itemprop="description">
+            テクノロジーとデータの力で、政治・行政・医療という「社会インフラ」のアップデート（DX）を推進する次世代のシビックテック・カンパニー。
+          </p>
+          <address class="not-italic">
+            <a href="mailto:info@health-gear.net" class="text-gray-400 hover:text-blue-400 text-sm transition-colors inline-flex items-center gap-2" itemprop="email">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              info@health-gear.net
+            </a>
+          </address>
+        </div>
+
+        <!-- Nav links -->
+        <div>
+          <h4 class="text-white font-bold mb-5 text-sm tracking-wide">事業内容</h4>
+          <ul class="space-y-3">
+            <li><a href="#business"      class="text-gray-400 hover:text-blue-400 text-sm transition-colors">GovTech開発</a></li>
+            <li><a href="#business"      class="text-gray-400 hover:text-blue-400 text-sm transition-colors">パブリックアフェアーズ</a></li>
+            <li><a href="#business"      class="text-gray-400 hover:text-blue-400 text-sm transition-colors">地域医療DX</a></li>
+            <li><a href="#track-record"  class="text-gray-400 hover:text-blue-400 text-sm transition-colors">支援実績</a></li>
+          </ul>
+        </div>
+
+        <!-- Products -->
+        <div>
+          <h4 class="text-white font-bold mb-5 text-sm tracking-wide">プロダクト</h4>
+          <ul class="space-y-3">
+            <li><a href="#products" class="text-gray-400 hover:text-blue-400 text-sm transition-colors">令和ボイス</a></li>
+            <li><a href="#products" class="text-gray-400 hover:text-blue-400 text-sm transition-colors">議事録AI検索システム</a></li>
+            <li>
+              <a href="https://github.com/health-gear" target="_blank" rel="noopener noreferrer"
+                 class="text-gray-400 hover:text-blue-400 text-sm transition-colors inline-flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.92.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+                </svg>
+                GitHubリポジトリ
+              </a>
+            </li>
+            <li><a href="#contact" class="text-gray-400 hover:text-blue-400 text-sm transition-colors">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-gray-500 text-sm">
+          &copy; 2022–2026 株式会社ヘルスギア（Health Gear, Inc.）All rights reserved.
+        </p>
+        <div class="flex items-center gap-6">
+          <a href="#" class="text-gray-500 hover:text-gray-300 text-xs transition-colors">プライバシーポリシー</a>
+          <a href="#" class="text-gray-500 hover:text-gray-300 text-xs transition-colors">利用規約</a>
+          <a href="https://github.com/health-gear" target="_blank" rel="noopener noreferrer"
+             class="text-gray-500 hover:text-gray-300 transition-colors" aria-label="GitHubリポジトリ">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.92.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JavaScript ===== -->
+  <script>
+    // Scroll-triggered fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Sticky nav: white/light on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.style.backgroundColor = 'rgba(255,255,255,0.97)';
+        nav.style.boxShadow = '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)';
+      } else {
+        nav.style.backgroundColor = 'rgba(255,255,255,0.85)';
+        nav.style.boxShadow = 'none';
+      }
+    }, { passive: true });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          const top = target.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
